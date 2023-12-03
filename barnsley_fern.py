@@ -2,8 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import colorcet as cc
 
+from matplotlib.colors import ListedColormap
 
-def plot_barnsley_fern(n_points=100000,
+
+def plot_barnsley_fern(n_points=1000000,
                        A1=np.array([[0.0, 0.0], [0.0, 0.16]]),
                        b1=np.array([0.0, 0.0]),
                        A2=np.array([[.85, .04], [-0.04, 0.85]]),
@@ -28,9 +30,16 @@ def plot_barnsley_fern(n_points=100000,
         else:
             X[:, i+1] = A1 @ X[:, i] + b1
 
+    cmap = ListedColormap(cc.CET_L14)
+
     fig, ax = plt.subplots(1, 1, figsize=(10, 20))
     ax.set_xlim([-2.5, 3.75])
     ax.set_ylim([-.1, 12.4])
-    ax.scatter(X[0, :], X[1, :], s=1, marker='.')
+    ax.scatter(X[0, :],
+               X[1, :],
+               s=1,
+               marker='.',
+               c=np.random.rand(n_points),
+               cmap=cmap)
 
-    fig.savefig('barnsley_plot.png')
+    fig.savefig('barnsley_plot.png', dpi=600)
